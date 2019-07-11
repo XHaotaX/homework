@@ -2,14 +2,16 @@ import fle
 def Straight(comb, combHand):
     temp=[]
     result=[]
+    Cmp=[]
+    Cmp=comb.copy()
     for m in comb:
         if (m[1]==1):
-            comb.append([m[0],14])
-    for m in comb:
+            Cmp.append([m[0],14])
+    for m in Cmp:
         temp.append(m)
         i=0
         while i<len(comb):
-            c=comb[i]
+            c=Cmp[i]
             if (m[1]+1==c[1]):
                 if (len(temp)==5):
                     temp=temp[1:]
@@ -23,17 +25,15 @@ def Straight(comb, combHand):
 #            print (temp)
             result=temp.copy()
         temp.clear()
+
+##    for m in Cmp:
+##        if (m[1]==14):
+##            Cmp.remove(m)
     if len(result)==5:
-        for m in comb:
-            if (m[1]==14):
-                comb.remove(m)
 #            print ("Straight")
 #        print (str(result[0]) +"-"+ str(result[4]))
         combHand.clear()
 #        combHand=result.copy()
         combHand.extend(result)
         return combHand
-    for m in comb:
-        if (m[1]==14):
-            comb.remove(m)
     return False
