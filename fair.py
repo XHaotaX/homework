@@ -3,6 +3,7 @@ def pair(comb,combHand):
     temp=[]
     for y in range(14):
         for i in comb:
+ ##           print(i)
             if i[1]==y:
                 temp.append(i)
         Pa.append(temp.copy())

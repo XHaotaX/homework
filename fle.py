@@ -6,7 +6,7 @@ def fR(comb, combHand):
     for y in range(4):
         for i in comb:
 #            print(i)
-            if i[0]==y:
+            if i[0]==y+1:
 #                print(y)
                 temp.append(i)
         fl.append(temp.copy())
@@ -26,4 +26,5 @@ def fR(comb, combHand):
             while not len(combHand)==5:
                 combHand.remove(combHand[0])
             return combHand
+
     return False

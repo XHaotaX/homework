@@ -9,11 +9,11 @@ import fair
 def Kiker(comb):
     k=0
     for y in range(len(comb)):
-        if comb[y][1]>comb[k][1] or comb[y][1]==1:
+        if comb[k][1]==1 or comb[y][1]>comb[k][1] or comb[y][1]==1:
             k=y
-    return comb[k]
+    return [comb[k]]
 
-def pure(comb,combHand):
+def pure(comb,combHand):#вывод сильнейшей комбинации
     combHand.clear()
     if fle.fR(comb,combHand):
         if st.Straight(combHand,combHand):
@@ -28,7 +28,7 @@ def pure(comb,combHand):
             return 2,y
         
     if fullH.fullHA(combHand):  
-        if len(combHand)>2:
+        if len(combHand)>3:
             return 3,combHand
     combHand.clear()
     
@@ -44,7 +44,9 @@ def pure(comb,combHand):
     if fullH.fullHA(combHand):
         if not len(combHand)>2:
             return 6,combHand
-
+    
+    combHand.clear()
+    fair.pair(comb,combHand)
     if Arrr.paiAAr(combHand):
         if len(combHand)==2:
             return 8,combHand
@@ -53,22 +55,22 @@ def pure(comb,combHand):
     combHand.clear()
     return 9,Kiker(comb)
 
-def theHighest(combHand):
-
+##вывод всех комбинаций
+def theHighest(comb,combHand):
+    combHand.clear()
 ##    флешь флешь флешь
     if fle.fR(comb,combHand):
         print("flesh")
         print(combHand)
-##        нашли флешь проверяем не стрили он ;(
+        ##        нашли флешь проверяем не стрили он ;(
         if st.Straight(combHand,combHand):
-##            коль стрит да еще и высший  №1
+            ##            коль стрит да еще и высший  №1
             if combHand[4][1]==14:
                 print("talalalalaaaaaaa")
-##            пррсто стир флешь №2
+        ##            пррсто стир флешь №2
             print("eehy")
 ##        елсе №5
-
-    combHand.clear()        
+    combHand.clear()  
     fair.pair(comb,combHand)# находим все пул из 4 3 2 кард    
     for y in combHand:# №3 проверка на каре
         if y[0]==4:
@@ -76,7 +78,7 @@ def theHighest(combHand):
         
     if fullH.fullHA(combHand):# запускается после fair.pair, ищем фулхаус
         #если есть хотябы сет вернет combHand, иначе False  
-        if len(combHand)>2:
+        if len(combHand)>3:
             print(combHand)#№4
         else:
             print("set")#№7
@@ -99,14 +101,14 @@ def theHighest(combHand):
 
 com=["fleshRoal","stritFlesh","Kare","FullHouse",
      "Flush","Straight","Set","2pair","pair","Kiker"]
-gg=[[1, 11], [3, 1], [3, 4], [3, 5], [3, 6], [3, 7], [3, 10]]
+gg=[[1, 1], [1, 12], [2, 1], [2, 2], [2, 11], [3, 1], [4, 4]]
 combHand=[]
 for i in range(100):
     comb=gg
 ##    comb=gener.gg()
     comb.sort()
     print(comb)
-    theHighest(combHand)
+    theHighest(comb,combHand)
     number,combHand=pure(comb,combHand)
     print("-",com[number],combHand)
 # стрит флешь старшая карта
