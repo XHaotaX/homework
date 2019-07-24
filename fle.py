@@ -25,6 +25,10 @@ def fR(comb, combHand):
             combHand.sort()
             while not len(combHand)==5:
                 combHand.remove(combHand[0])
+            for m in combHand:
+                if (m[1]==14):
+                    combHand.remove(m)
+                    combHand.append([m[0],1])
             return combHand
 
     return False

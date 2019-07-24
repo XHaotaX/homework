@@ -2,12 +2,12 @@ import random as r
 
 #def ButiOut(y)
 
-def gg():
+def gg(n=2):
     comb=[]
     cm=[]
     cch=[]
     m =["♥","♦","♣","♠"]
-    k=7
+    k=5+n*2
     while len(comb)<k:
         mn=r.randint(1,4)
 ##       if mn==1:
