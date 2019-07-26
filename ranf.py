@@ -39,7 +39,7 @@ def compare(Game,pl1,pl2):
                 return 1
     k1=ch.CutAnd(PLC1,hand1)
     k2=ch.CutAnd(PLC2,hand2)
-    print(k1,k2)
+##    print(k1,k2)
     for i in range(len(k1)):
         if k2[i][1]==k1[i][1]:
             continue
