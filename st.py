@@ -35,6 +35,5 @@ def Straight(comb, combHand):
         combHand.clear()
 #        combHand=result.copy()
         combHand.extend(result)
-        print(combHand)
         return combHand
     return False
