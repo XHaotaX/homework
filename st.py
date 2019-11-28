@@ -10,7 +10,7 @@ def Straight(comb, combHand):
     for m in Cmp:
         temp.append(m)
         i=0
-        while i<len(comb):
+        while i<len(Cmp):
             c=Cmp[i]
             if (m[1]+1==c[1]):
                 if (len(temp)==5):
@@ -35,5 +35,6 @@ def Straight(comb, combHand):
         combHand.clear()
 #        combHand=result.copy()
         combHand.extend(result)
+        print(combHand)
         return combHand
     return False

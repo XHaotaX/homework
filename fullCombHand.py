@@ -7,6 +7,9 @@ import fair
 
 def CutAnd(comb,combHand):
     temp=comb.copy()
+    for i in temp:
+        if i[1]==1:
+            i[1]=14
     for i in combHand:
         temp.remove(i)
     return Kiker(temp)
@@ -21,16 +24,16 @@ def Kiker(comb):
 def pure(comb,combHand):#вывод сильнейшей комбинации
     combHand.clear()
     if fle.fR(comb,combHand):
-        if st.Straight(combHand,combHand):
+        if st.Straight(combHand,combHand):##сдесь идет проврека на стрит-флеш 
             if combHand[4][1]==14:
-                return 0,combHand
+                return 0,combHand##
             else:
-                return 1,combHand
+                return 1,combHand##
     combHand.clear()
     fair.pair(comb,combHand)
-    for y in combHand:
-        if y[0]==4:
-            return 2,y
+    for y in combHand: ## пусть будет не трогай , если мвссив пустой не выдает ошибки 
+        if y==4:
+            return 2,combHand[1]
         
     if fullH.fullHA(combHand):  
         if len(combHand)>3:

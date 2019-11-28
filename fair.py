@@ -14,7 +14,7 @@ def pair(comb,combHand):
         if len(y)>3:
 ##            print("Kare")
 ##            print(y)
-            combHand.append([4,y])
+            combHand.extend([4,y])
         else:
             if len(y)>2:
 ##                print("Set")

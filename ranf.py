@@ -21,9 +21,9 @@ class Plaer:
 ##  состояние пока не продуман?( , не участвует в раздаче ,не участвует в розыгрыше банка и .?. 
     state=[]
 
-def gRound(allcards):
+def gRound(allcard):
     Plaers=Plaer()
-    for i in range(int((len(allcards)-5)/2)):
+    for i in range(int((len(allcard)-5)/2)):
         ## вот как сука сделать temp=Plaer() который не будет привязан
         ## хотел сделать список обьектов неполучилось
         ## rft;t 'nj ujdyj
@@ -32,10 +32,13 @@ def gRound(allcards):
 ##        temp.card.append(allcards[5+2*i:5+2*(i+1)])
 ##        temp.position=i
 ##        Plaers.append(copy(temp))
-        Plaers.card.append(allcards[5+2*i:5+2*(i+1)])
+        Plaers.card.append(allcard[5+2*i:5+2*(i+1)])
         Plaers.position.append(i)
     for i in range(len(Plaers.card)):
         print ("Your cards is : ",Plaers.card[i],Plaers.position[i])
+    Plaers.position.clear()
+    Plaers.card.clear()
+    Plaers.state.clear()
 ##    =input()
 ##    print(o+2)
 ## разделим игру на круги торговли
@@ -82,16 +85,16 @@ def gRound(allcards):
 def main():
     com=["fleshRoal","stritFlesh","Kare","FullHouse",
          "Flush","Straight","Set","2pair","pair","Kiker"]
-    gg=[[2, 2], [2, 3], [1, 5], [2, 10], [3, 8], [1,4],[2,4],[3, 4], [4, 4],[1,7],[2,1]]
+    gg=[[2, 12], [1, 5], [3, 12], [4, 12], [1, 12], [2, 8], [1, 2], [2, 7], [2, 4], [4, 5], [2, 9]]   
     combHand=[]
-    for i in range(1):
-    ##    allcards=gg
+    for r in range(10000):
+        allcards=gg
         NPlaer=3
-        allcards=gener.gg(NPlaer)
+        ##allcards=gener.gg(NPlaer)
         curGame=table()
         curGame.com=allcards[:5]##5 карт из сгенрированой группы обшие 
         curGame.winner.append([10,10,10])
-        print(curGame.com)
+        print(allcards)
         gRound(allcards)
         for i in range(int((len(allcards)-5)/2)):
             curGame.Plaers.append(allcards[5+2*i:5+2*(i+1)])##получаю карты игрока
@@ -120,8 +123,13 @@ def main():
                 print("Player ",curGame.winner[i][1]+1,"-",com[curGame.winner[i][0]])
         else :
             print("Player ",curGame.winner[0][1]+1,"-",com[curGame.winner[0][0]])
-
-    ##        if number>2 and number<9:## вывод кикера с учетом текуших карт
+        curGame.Plaers.clear()##это 
+        curGame.com.clear()## полное 
+        curGame.winner.clear()## нужна адекватная алтернатива
+        ##но она покрайне мере работает без танцев с б, просто работае
+        ##....
+        
+   ##        if number>2 and number<9:## вывод кикера с учетом текуших карт
     ##            print("kKk-",ch.CutAnd(PLC,combHand))
     # стрит флешь старшая карта
     # каре старшая карта
