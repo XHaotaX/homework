@@ -5,8 +5,11 @@ import fullH
 import Arrr
 import fair
 
+##какойто заопарк ищи pure
+
 def CutAnd(comb,combHand):
     temp=comb.copy()
+##    чет не уверен что но работает правииьно не трогаю 13.03.2020
     for i in temp:
         if i[1]==1:
             i[1]=14
@@ -33,7 +36,7 @@ def pure(comb,combHand):#вывод сильнейшей комбинации
     fair.pair(comb,combHand)
     for y in combHand: ## пусть будет не трогай , если мвссив пустой не выдает ошибки 
         if y==4:
-            return 2,combHand[1]
+            return 2,combHand[combHand.index(y)+1]
         
     if fullH.fullHA(combHand):  
         if len(combHand)>3:

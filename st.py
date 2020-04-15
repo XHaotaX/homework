@@ -1,4 +1,5 @@
 import fle
+##СТРИТ
 def Straight(comb, combHand):
     temp=[]
     result=[]

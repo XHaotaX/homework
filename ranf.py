@@ -78,19 +78,20 @@ def gRound(allcard):
 ##    4 сделал алин или ставка совпадает с предыдушим
 ## ааа , мне нехочется это делать
 ## 25.11.2019 16:09 плохая метка
-## слудшими пожеланиями не дожить до завтра, удачи
+## 27.02.2020 09:48 плохая метка что это значит?
+    ## слудшими пожеланиями не дожить до завтра, удачи
     ## call(уровнять), rais on {n}(), allin (поставить , но это врядли буду реализовывать хотя нет придется( )
 ## chech(оставить ставку без повышения), fold(сбросить карты, и выйти из текушей игры(не стол))
 ## leav покинуть стол но до этого ещё далеко ) (
 def main():
     com=["fleshRoal","stritFlesh","Kare","FullHouse",
          "Flush","Straight","Set","2pair","pair","Kiker"]
-    gg=[[2, 12], [1, 5], [3, 12], [4, 12], [1, 12], [2, 8], [1, 2], [2, 7], [2, 4], [4, 5], [2, 9]]   
+    gg=[[2, 12], [1, 5], [3, 12], [4, 12], [1, 12], [2, 8], [1, 2], [4, 5], [2, 9], [2, 7], [2, 4]]   
     combHand=[]
-    for r in range(10000):
-        allcards=gg
+    for r in range(1):
+     ##   allcards=gg
         NPlaer=3
-        ##allcards=gener.gg(NPlaer)
+        allcards=gener.gg(NPlaer)
         curGame=table()
         curGame.com=allcards[:5]##5 карт из сгенрированой группы обшие 
         curGame.winner.append([10,10,10])
@@ -102,14 +103,22 @@ def main():
             PLC=curGame.com+curGame.Plaers[i]##формирую массив всех карт игрока (рука+стол)
 ##            print("Plyer "+str(i+1)+" -",curGame.Plaers[i])
             number,combHand=ch.pure(PLC,combHand)##вывод исхода карт для игрока, number-номер комбинации combHand-карты комбинации
+            ##както не поняятно , я понял13.03.2020
+            ##вообшем сечайс ты в цикле
+##            сдесь строкой выше мы нали на ивысшую кобинацию у тебя на руках
+##            теперь строкой ниже мы проверяем  она равна она ниже или выше уже проверенх в этом цикле комбинаций
             print("-",com[number],combHand)
 
-            if curGame.winner[0][0]>number:
-                curGame.winner.clear()
-                curGame.winner.append([number,i,combHand.copy()])
-            else:
+            if curGame.winner[0][0]>number:##help
+                curGame.winner.clear()##чет тут скушно
+                curGame.winner.append([number,i,combHand.copy()])##но когда есть коменты веселеле)
+            else:##толь не захломляй плиз. !!!!СЮДА СМОТРИ СУКА!!!!, НЕ ЗАХЛОМЛЯЙ  ГОВНО-КОМЕНТАРИЯМ СВОЙ ГОВНО-КОД!!!!!!
                 if curGame.winner[0][0]==number:
                     temp=compare.compare(curGame,curGame.winner[0][1],i)
+                    ##сравниваю возрашает
+                    ##0 - равны
+                    ##-1 меньше
+                    ##1 больше
                     if temp==1:
                         curGame.winner.clear()
                         curGame.winner.append([number,i,combHand.copy()])
@@ -133,9 +142,9 @@ def main():
     ##            print("kKk-",ch.CutAnd(PLC,combHand))
     # стрит флешь старшая карта
     # каре старшая карта
-    # фулл хаус старшая среди троек , старшая среди 2, кикер
-    # флешь старшая карта,kiker
-    # стрит старшая карта,kiker
+    # фулл хаус старшая среди троек , старшая среди 2, не нужен(13.03.2020)
+    # флешь старшая карта,kiker не нужен(13.03.2020)
+    # стрит старшая карта,kiker не нужен(13.03.2020)
     # тройка старшая карта, кикер
     # пара старшая карта, кикер
 

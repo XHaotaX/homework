@@ -5,6 +5,7 @@ class Player:
     card=[]
     state=0
     bet=0
+    wallet=1500##кошелек
     id
     
 def main():
@@ -34,10 +35,15 @@ def main():
     end=0
     table=[]
     ##теперь есть масив обьектов представляюших каждого игрока Pls
-    curCost=bb
-    Pls[0].bet=bb/2
+    curCost=2
+    
+    Pls[0].bet=1
+    Pls[0].wallet=Pls[0].wallet-Pls[0].bet
+    bank=bank+Pls[0].bet
     Pls.rotate(-1)
-    Pls[0].bet=bb
+    Pls[0].bet=2
+    Pls[0].wallet=Pls[0].wallet-Pls[0].bet
+    bank=bank+Pls[0].bet
     endRoundId=Pls[0].id
     print("start")
     while True:
@@ -55,7 +61,7 @@ def main():
                 print(gg[:5])
                 table=gg[:5]
             if around==4:
-                break##конец торговли
+                return bank,Pls##конец торговли
  #            0- 0 карт на столе
 ##            1- 3 карты на столе
 ##            2- 4 карты на столе
@@ -69,22 +75,27 @@ def main():
             if pl.state==0:
                 end=end+1    
             if (end+1)==int((len(gg)-5)/2):
-                return ##конец торговли
+                return bank,Pls
         end=0
 ##  навыводить всю информацию каждому игроку о  текушем столе
         if not (Pls[0].state==0 or Pls[0].state==4):
             print(table)
-            print("id \t state \t bet")
+            print("id \t state \t bet \t wallet")
             for pl in Pls:
-                print(pl.id,"\t",pl.state,"\t",pl.bet,"$")
+                print(pl.id,"\t",pl.state,"\t",pl.bet,"$\t",pl.wallet)
         if Pls[0].state==0 or Pls[0].state==4:
             continue
         else:
             move=0
             print(Pls[0].card)
             if curCost==Pls[0].bet:
-                print(" fall \t check \t raise")
-                move=input()
+                print(" fall \t check(ch) \t raise")
+                while (True):
+                    move=input()
+                    if not (move=="f" or move=="ch" or move=="r"):
+                        print("incorrect")
+                    else:
+                        break
                 if move=="f": ##fall
                     Pls[0].state=0
                     continue
@@ -107,39 +118,61 @@ def main():
                            print("non number")
                     bank=bank+bet
                     curCost=curCost+bet
+                    Pls[0].wallet=Pls[0].wallet-(curCost-Pls[0].bet)
                     Pls[0].bet=Pls[0].bet+bet##сделано одельно, чтоб в случии, ошибки были видны @)
+                    endRoundId=Pls[0].id
+                    continue
             else:
                 print(" fall \t call  \t raise")
-                move=input()
+                while (True):
+                    move=input()
+                    if not (move=="f" or move=="c" or move=="r"):
+                        print("incorrect")
+                    else:
+                        break
                 if move=="f": ##fall
                     Pls[0].state=0
                     continue
                 if move=="c":
                     bank=bank+(curCost-Pls[0].bet)##call
+                    Pls[0].wallet=Pls[0].wallet-(curCost-Pls[0].bet)
                     Pls[0].bet=curCost
                     Pls[0].state=2 ##2 or 1 thinking about it
                     continue
                 if move=="r":##rais фунциюю all in можно сделать также
                     while True:
                         state=3
+                        bank=bank+(curCost-Pls[0].bet)##call
+##                        Pls[0].bet=curCost
                         bet=input()##ток добавь к параметрам класса парметр текушихших вишек
                         if "all"==bet:
                             print("all")
                             Pls[0].state=4
-                            bet=100
+                            bet=Pls[0].wallet
                             break
                         if str.isdigit(bet):
                             bet=int(bet)
+
                             break
                         else:
                             print("non number")
                     bank=bank+bet
-                    if bet+Pls[0].bet>curCost:
-                        curCost=bet+Pls[0].bet
-                    Pls[0].bet=Pls[0].bet+bet##сделано одельно, чтоб в случии, ошибки были видны @)
+##                    if bet+Pls[0].bet>curCost:##нужно дорроотать , это в тех случая когда нехватает денег
+##                        curCost=bet+Pls[0].bet
+##                    else:
+                    curCost=curCost+bet                            
+                    Pls[0].wallet=Pls[0].wallet-(curCost-Pls[0].bet)
+##                    Pls[0].bet=curCost
+                    Pls[0].bet=curCost##сделано одельно, чтоб в случии, ошибки были видны @)
                     endRoundId=Pls[0].id
+                    continue
     for pl in Pls:
         if not pl.state==0:
-            print(pl.id,"\t",pl.state,"\t",pl.bet,"$")
+            print(pl.id,"\t",pl.state,"\t",pl.bet,"$\t",pl.wallet)
 
-main()
+k,t=main()
+print("{",k)
+print("id \t state \t bet \t wallet")
+for pl in t:
+    print(pl.id,"\t",pl.state,"\t",pl.bet,"$\t",pl.wallet)
+    

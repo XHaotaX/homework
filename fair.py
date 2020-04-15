@@ -1,4 +1,4 @@
-def pair(comb,combHand):
+def pair(comb,combHand):##полный отстой , передалть возми функцию для пар и впихни её сюда ,ну а по ка да кастыль полсе этой функции
     Pa=[]
     temp=[]
     for y in range(14):
@@ -6,7 +6,7 @@ def pair(comb,combHand):
  ##           print(i)
             if i[1]==y:
                 temp.append(i)
-        Pa.append(temp.copy())
+        Pa.append(temp.copy())##сздесь какая то ерудна пока оставил так так носли тыснова тут то проверь может сттоит поднять этостроку в иф(начальное предположение)
 #        print(Pa)
         temp.clear()
 #    print(Pa)
