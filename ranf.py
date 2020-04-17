@@ -6,14 +6,9 @@ import Arrr
 import fair
 import fullCombHand as ch
 import com as compare
-#def ButiOut(y)
+import auction
 
-class Player:
-    card=[]
-    state=0
-    bet=0
-    wallet=1500##кошелек
-    id
+#def ButiOut(y)
 
 class table:
     com=[]
@@ -66,7 +61,7 @@ def main():
 ##                    else:
 ##                        if temp==0:
 ##                            curGame.winner.append([number,i,combHand.copy()])
-
+        auction.start(allcards,True)
         curGame=winer(allcards)
         if (len(curGame.winner)>1):
             print("Plaers делят банк")
