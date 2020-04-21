@@ -5,13 +5,13 @@ import random
 ##15.04.2020 14:43 жизнь тлен и даже наличие коментов енм еняет тогофакккта что ...
 class Player:
     card=[]
-    state=0
+    state=9
     bet=0
     wallet=1500##кошелек
     id
     
 ##def main():
-def start(gg,auto=False):
+def start(Pls,gg,auto=False):
 ##    gg=[[2, 12], [1, 5], [3, 12], [4, 12], [1, 12], [2, 8], [1, 2], [4, 5], [2, 9], [2, 7], [2, 4]]   
     around=0
     bank=0
@@ -20,21 +20,17 @@ def start(gg,auto=False):
 ##    bakr=bb+mbb
     curCost=0
     endRoundId=int((len(gg)-5)/2)
-    Pls=deque()
-    
-    for i in range(int((len(gg)-5)/2)):##тут
-##        pl=Player()##типо заполняю 
-##        pl.card.append(gg[5+2*i:5+2*(i+1)])##даю карты каждому игроку
-##        pl.id=i
-##        Pls.append(pl)
-        Pls.append(Player())
-        Pls[i].card=gg[5+2*i:5+2*(i+1)]
-##        Pls.##даю карты каждому игроку
-        Pls[i].id=i
-        Pls[i].state=9
-    for pl in Pls:
-        print(pl.card)
-        print(pl.id)
+##    Pls=deque()
+##    
+##    for i in range(int((len(gg)-5)/2)):##тут
+##        Pls.append(Player())##типо заполняю 
+##        Pls[i].card=gg[5+2*i:5+2*(i+1)]##даю карты каждому игроку
+##        Pls[i].id=i
+##        Pls[i].state=9
+##    for pl in Pls:
+##        print(pl.card)
+##        print(pl.id)
+
     end=0
     table=[]
     ##теперь есть масив обьектов представляюших каждого игрока Pls
@@ -51,7 +47,6 @@ def start(gg,auto=False):
     print("start")
     while True:
         Pls.rotate(-1)
-        print("id-",Pls[0].id)
         if endRoundId==Pls[0].id:##тут типо оканчание круга торговли,
             around=around+1
             if around==1:
@@ -64,7 +59,7 @@ def start(gg,auto=False):
                 print(gg[:5])
                 table=gg[:5]
             if around==4:
-                return bank,Pls##конец торговли
+                return bank##конец торговли
  #            0- 0 карт на столе
 ##            1- 3 карты на столе
 ##            2- 4 карты на столе
@@ -78,25 +73,26 @@ def start(gg,auto=False):
             if pl.state==0:
                 end=end+1    
             if (end+1)==int((len(gg)-5)/2):
-                return bank,Pls
+                return bank
         end=0
 ##  навыводить всю информацию каждому игроку о  текушем столе
-        if not (Pls[0].state==0 or Pls[0].state==4):
-            print(table)
-            print("id \t state \t bet \t wallet")
-            for pl in Pls:
-                print(pl.id,"\t",pl.state,"\t",pl.bet,"$\t",pl.wallet)
+##        print("id-",Pls[0].id)
+##        if not (Pls[0].state==0 or Pls[0].state==4):
+##            print(table)
+##            print("id \t state \t bet \t wallet")
+##            for pl in Pls:
+##                print(pl.id,"\t",pl.state,"\t",pl.bet,"$\t",pl.wallet)
         if Pls[0].state==0 or Pls[0].state==4:
             continue
         else:
             move=0
             print(Pls[0].card)
             if curCost==Pls[0].bet:
-                print(" fall \t check(ch) \t raise")
                 if auto:
                     move=random.choice(["f","ch","r"])
                 else:
                     while (True):
+                        print(" fall \t check(ch) \t raise")
                         move=input()
                         if not (move=="f" or move=="ch" or move=="r"):
                             print("incorrect")
@@ -132,11 +128,11 @@ def start(gg,auto=False):
                     endRoundId=Pls[0].id
                     continue
             else:
-                print(" fall \t call  \t raise")
                 if auto:
                     move=random.choice(["f","c","r"])
                 else:
                     while (True):
+                        print(" fall \t call  \t raise")
                         move=input()
                         if not (move=="f" or move=="c" or move=="r"):
                             print("incorrect")
@@ -161,13 +157,12 @@ def start(gg,auto=False):
     ##                        Pls[0].bet=curCost
                             bet=input()##ток добавь к параметрам класса парметр текушихших вишек
                             if "all"==bet:
-                                print("all")
+##                                print("all")
                                 Pls[0].state=4
                                 bet=Pls[0].wallet
                                 break
                             if str.isdigit(bet):
                                 bet=int(bet)
-
                                 break
                             else:
                                 print("non number")
@@ -181,13 +176,12 @@ def start(gg,auto=False):
                     Pls[0].bet=curCost##сделано одельно, чтоб в случии, ошибки были видны @)
                     endRoundId=Pls[0].id
                     continue
-    for pl in Pls:
-        if not pl.state==0:
-            print(pl.id,"\t",pl.state,"\t",pl.bet,"$\t",pl.wallet)
+##    for pl in Pls:
+##        if not pl.state==0:
+##            print(pl.id,"\t",pl.state,"\t",pl.bet,"$\t",pl.wallet)
 
 ##k,t=main()
 ##print("{",k)
 ##print("id \t state \t bet \t wallet")
 ##for pl in t:
 ##    print(pl.id,"\t",pl.state,"\t",pl.bet,"$\t",pl.wallet)
-    
