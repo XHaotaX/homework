@@ -1,12 +1,12 @@
 import gener
-import fle
-import st
-import fullH
-import Arrr
-import fair
-import fullCombHand as ch
-import com as compare
+##import fle
+##import st
+##import fullH
+##import Arrr
+##import fair
+
 import auction
+import CardReading as CR
 from collections import deque
 
 class Player:
@@ -22,44 +22,75 @@ class table:
     winner=[]
 
 def main():
-    com=["fleshRoal","stritFlesh","Kare","FullHouse",
-         "Flush","Straight","Set","2pair","pair","Kiker"]
-##    gg=[[2, 12], [1, 5], [3, 12], [4, 12], [1, 12], [2, 8], [1, 2], [4, 5], [2, 9], [2, 7], [2, 4]] 
+##    com=["fleshRoal","stritFlesh","Kare","FullHouse",
+##         "Flush","Straight","Set","2pair","pair","Kiker"]
+##    gg=[[2, 4], [2, 12], [3, 1], [1, 3], [4, 12],[1, 7], [2, 6],[1, 10], [2, 3],[4, 4], [1, 11]] 
 
     NPlaer=3
     Pls=deque()
+    button=NPlaer
     for i in range(NPlaer):
         Pls.append(Player())##типо заполняю 
 
-    for r in range(10):
-     ##   allcards=gg
+    for r in range(100000):
+##        allcards=gg
         allcards=gener.gg(NPlaer)
-        print(allcards)
+        print(allcards[:5])
 
         for i in range(int((len(allcards)-5)/2)):##тут
             Pls[i].card=allcards[5+2*i:5+2*(i+1)]##даю карты каждому игроку
             Pls[i].id=i
             Pls[i].state=9
+            Pls[i].bet=0
         for pl in Pls:
-            print(pl.card)
-            print(pl.id)
+            print("Player",pl.id,pl.card)
 
         bank=auction.start(Pls,allcards,True)
-        print("--=",bank)
+        print("BaNK=",bank)
         allcards=allcards[:5]
+        Id=[]
         for pl in Pls:
             print(pl.id,"\t",pl.state,"\t",pl.bet,"$\t",pl.wallet)
             if not pl.state==0:
                 allcards=allcards+pl.card
-        curGame=winer(allcards)        
+                Id.extend([pl.id])
+        print(Id)
+        curGame=CR.winer(allcards,Id)
+        payment(curGame,bank,Pls)
+        for pl in Pls:
+            print(pl.id,"\t",pl.bet,"$\t",pl.wallet)
+        print(" ")
 
-        if (len(curGame.winner)>1):
-            print("Plaers делят банк")
-            for i in range(len(curGame.winner)):
-                print("Player ",curGame.winner[i][1]+1,"-",com[curGame.winner[i][0]])
-        else :
-            print("Player ",curGame.winner[0][1]+1,"-",com[curGame.winner[0][0]])
-
+def payment(curGame,bank,Pls):
+    com=["fleshRoal","stritFlesh","Kare","FullHouse",
+     "Flush","Straight","Set","2pair","pair","Kiker"]
+    for i in range(len(curGame.winner)):
+        print("Player ",curGame.winner[i][1],"-",com[curGame.winner[i][0]])
+    if (len(curGame.winner)>1):
+        print("Plaers делят банк")
+##            равная часть от банка * на количество игроков + нераспределеный остаток от суммы
+        for i in range(len(curGame.winner)):
+            while True:
+                if curGame.winner[i][1]==Pls[0].id:
+                    Pls[0].wallet=Pls[0].wallet+bank//len(curGame.winner)
+                    break
+                else:
+                    Pls.rotate(-1)
+        if bank%len(curGame.winner):
+                for i in range(bank%len(curGame.winner)):##распределяю по одному
+                    for y in range(len(curGame.winner)):##ищу среди победителей игрока если нашел одаю, есди не нашел меняю игрока
+                        if curGame.winner[y][1]==Pls[0].id:
+                            Pls[0].wallet=Pls[0].wallet+1
+                            break##текуший коин и беру другой если но есть, нет вы хожу
+                    Pls.rotate(-1)
+    else :
+        for i in range(len(curGame.winner)):
+            while True:
+                if curGame.winner[i][1]==Pls[0].id:
+                    Pls[0].wallet=Pls[0].wallet+bank//len(curGame.winner)
+                    break
+                else:
+                    Pls.rotate(-1)
         
    ##        if number>2 and number<9:## вывод кикера с учетом текуших карт
     ##            print("kKk-",ch.CutAnd(PLC,combHand))
@@ -71,53 +102,4 @@ def main():
     # тройка старшая карта, кикер
     # пара старшая карта, кикер
 
-def winer(allcards):
-    com=["fleshRoal","stritFlesh","Kare","FullHouse",##нужно для выывода инфы можно убрать
-     "Flush","Straight","Set","2pair","pair","Kiker"]
-    combHand=[]
-    curGame=table()
-    curGame.Plaers.clear()##это 
-    curGame.com.clear()## полное 
-    curGame.winner.clear()## нужна адекватная алтернатива
-
-    curGame.com=allcards[:5]##5 карт из сгенрированой группы обшие 
-    curGame.winner.append([10,10,10])
-
-    for i in range(int((len(allcards)-5)/2)):##здесь творится весь ад , все котлы тут +-(нужно делится @)
-        curGame.Plaers.append(allcards[5+2*i:5+2*(i+1)])##получаю карты игрока
-        ##    theHighest(comb,combHand)
-        PLC=curGame.com+curGame.Plaers[i]##формирую массив всех карт игрока (рука+стол)
-##            print("Plyer "+str(i+1)+" -",curGame.Plaers[i])
-        number,combHand=ch.pure(PLC,combHand)##вывод исхода карт для игрока, number-номер комбинации combHand-карты комбинации
-        ##както не поняятно , я понял13.03.2020
-        ##вообшем сечайс ты в цикле
-##            сдесь строкой выше мы нали на ивысшую кобинацию у тебя на руках
-##            теперь строкой ниже мы проверяем  она равна, она ниже или выше уже проверенх в этом цикле комбинаций
-        print("-",com[number],combHand)##нужно для выывода инфы можно убрать
-
-        if curGame.winner[0][0]>number:##help
-            curGame.winner.clear()##чет тут скушно
-            curGame.winner.append([number,i,combHand.copy()])##но когда есть коменты веселеле)
-        else:##толь не захломляй плиз. !!!!СЮДА СМОТРИ СУКА!!!!, НЕ ЗАХЛОМЛЯЙ  ГОВНО-КОМЕНТАРИЯМ СВОЙ ГОВНО-КОД!!!!!!
-            if curGame.winner[0][0]==number:
-                temp=compare.compare(curGame,curGame.winner[0][1],i)
-                ##сравниваю возрашает
-                ##0 - равны
-                ##-1 меньше
-                ##1 больше
-                if temp==1:
-                    curGame.winner.clear()
-                    curGame.winner.append([number,i,combHand.copy()])
-                else:
-                    if temp==0:
-                        curGame.winner.append([number,i,combHand.copy()])
-
-##    if (len(curGame.winner)>1):
-##        print("Plaers делят банк")
-##        for i in range(len(curGame.winner)):
-##            print("Player ",curGame.winner[i][1]+1,"-",com[curGame.winner[i][0]])
-##    else :
-##        print("Player ",curGame.winner[0][1]+1,"-",com[curGame.winner[0][0]])
-    return curGame
-    
 main()

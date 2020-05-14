@@ -50,15 +50,16 @@ def start(Pls,gg,auto=False):
         if endRoundId==Pls[0].id:##тут типо оканчание круга торговли,
             around=around+1
             if around==1:
-                print(gg[:3])
+                print("S2",gg[:3])
                 table=gg[:3]
             if around==2:
-                print(gg[:4])
+                print("S3",gg[:4])
                 table=gg[:4]
             if around==3:
-                print(gg[:5])
+                print("S4",gg[:5])
                 table=gg[:5]
             if around==4:
+                print("Ennd")
                 return bank##конец торговли
  #            0- 0 карт на столе
 ##            1- 3 карты на столе
@@ -68,7 +69,7 @@ def start(Pls,gg,auto=False):
             ## а там просто сравнение карта тоесть алогритм делает точто уже умеет
             ## смотреть затем чтоб непроверял игроков не принемашив участиев розыгрыше, и ли по иным причинам
             ##не имеющий прав участвовать в розыгреше
-            
+            ## вот читаю и думаю зачем писать так facenapalm
         for pl in Pls:
             if pl.state==0:
                 end=end+1    
@@ -86,11 +87,11 @@ def start(Pls,gg,auto=False):
             continue
         else:
             move=0
-            print(Pls[0].card)
             if curCost==Pls[0].bet:
                 if auto:
                     move=random.choice(["f","ch","r"])
                 else:
+                    print(Pls[0].card)
                     while (True):
                         print(" fall \t check(ch) \t raise")
                         move=input()
@@ -132,6 +133,7 @@ def start(Pls,gg,auto=False):
                     move=random.choice(["f","c","r"])
                 else:
                     while (True):
+                        print(Pls[0].card)
                         print(" fall \t call  \t raise")
                         move=input()
                         if not (move=="f" or move=="c" or move=="r"):
@@ -148,12 +150,12 @@ def start(Pls,gg,auto=False):
                     Pls[0].state=2 ##2 or 1 thinking about it
                     continue
                 if move=="r":##rais фунциюю all in можно сделать также
+                    bank=bank+(curCost-Pls[0].bet)##call
                     if auto:
                         bet=random.randrange(5,40)
                     else:
                         while True:
                             state=3
-                            bank=bank+(curCost-Pls[0].bet)##call
     ##                        Pls[0].bet=curCost
                             bet=input()##ток добавь к параметрам класса парметр текушихших вишек
                             if "all"==bet:
@@ -172,7 +174,6 @@ def start(Pls,gg,auto=False):
 ##                    else:
                     curCost=curCost+bet                            
                     Pls[0].wallet=Pls[0].wallet-(curCost-Pls[0].bet)
-##                    Pls[0].bet=curCost
                     Pls[0].bet=curCost##сделано одельно, чтоб в случии, ошибки были видны @)
                     endRoundId=Pls[0].id
                     continue
