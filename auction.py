@@ -46,12 +46,18 @@ def start(Pls,gg,auto=False):
     
     Pls[0].bet=1
     Pls[0].wallet=Pls[0].wallet-Pls[0].bet
+    ## Pls[0].roundBet непонятно зачем
     Pls[0].roundBet+=Pls[0].bet
+##    Pls[0].roundBet=Pls[0].bet
     bank=bank+Pls[0].bet
     Pls.rotate(-1)
-    Pls[0].bet=2
+    if Pls[0].wallet<2:
+        Pls[0].bet=Pls[0].wallet
+    else:
+        Pls[0].bet=2
     Pls[0].wallet=Pls[0].wallet-Pls[0].bet
     Pls[0].roundBet+=Pls[0].bet
+##    Pls[0].roundBet=Pls[0].bet
     bank=bank+Pls[0].bet
     endRoundId=Pls[0].id
     print("start")
@@ -70,25 +76,25 @@ def start(Pls,gg,auto=False):
                     break
             ##30.10.2020 11:36 ктото в алл, переменая chBan=0 ,запускается цикл обработки банка    
             while chBan==0:##23.10.2020 13:52 моя не понимать как это работать хнык хнык <( 30.10.2020 11:30 памагыте хелп
-                for pl in Pls:
-                    print(pl.id,"\t",pl.state,"\t",pl.bet,"$\t",pl.wallet)
+##                for pl in Pls:
+##                    print(pl.id,"\t",pl.state,"\t",pl.bet,"$\t",pl.wallet)
                 if chBan==0:##30.10.2020 12:50 все еще не могу 30.10.2020 12:57 начинается просветление 30.10.2020 14:10 почему оно работает?
                     for i in Pls:#минимальная ставка в текушем круге, выделение минимальной ставки
-                        if minBet<i.roundBet and not (i.state==6 or i.state==0):
+                        if minBet>i.roundBet and not (i.state==6 or i.state==0):
                             minBet=i.roundBet
                     for i in Pls:#для текушей минимальной ставки
-                        if not ((i.state==6) or (i.state==0)):##предполагаю , что ст=5 это значит что игрок израсходовал фишки и он не может продолжат текушюю торговля и соответственно претендовать на фишки каторые будут вложены в банк
+                        if not ((i.state==6) or (i.state==0)):##предполагаю , что ст=6 это значит что игрок израсходовал фишки и он не может продолжат текушюю торговля и соответственно претендовать на фишки каторые будут вложены в банк
                             if i.roundBet==minBet:
                                 i.state=6
                                 continue
                             ## и на кой черт ты увеличиваешь банк???
                             ## все текушие ставки складываю в банк потом при делениии все ставки
                             if minBet>i.roundBet:
-                                bank+=i.roundBet##я не понимаю как но это строчка не ломает выходнуюю сумму всех слогаемых
+##                                bank+=i.roundBet##я не понимаю как но это строчка не ломает выходнуюю сумму всех слогаемых,04.12.20 а не кажись как то ломает , ламает ли ?
                                 i.roundBet=0
                             else:
-                                bank+=minBet
-                                i.roundBet=minBet
+##                                bank+=minBet
+                                i.roundBet-=minBet
                 ##я так понял \/ это чтоб банк разделяся пока есть что делить
                 for i in Pls:#если кто пошел в алл ин значит нада разделить банк на до и после
                     if i.state==4:
@@ -96,7 +102,7 @@ def start(Pls,gg,auto=False):
                         break
                     else:##30.10.2020 12:36 мозг отказывается углублятся  вто как это работает, происходило зацикливание, непонимаю как оно должно вообше выхадить из цикла, пишу этот елсе
                         chBan=1
-                t=input()
+##                t=input() ##это что вообше и откуда?
             
             if around==1:## 0- 0 карт на столе
                 print("S2",gg[:3])
@@ -116,7 +122,7 @@ def start(Pls,gg,auto=False):
             ##не имеющий прав участвовать в розыгреше
             ## вот читаю и думаю зачем писать так facenapalm
         for pl in Pls:
-            if pl.state==0:
+            if pl.state==0 or pl.state==6:
                 end=end+1    
             if (end+1)==int((len(gg)-5)/2):
                 return bank

@@ -10,12 +10,12 @@ import CardReading as CR
 from collections import deque
 
 class Player:
-    card=[]
-    state=9
-    bet=0
-    roundBet=0
+    card=[]##карты в руке
+    state=9##состояние чек или флл ин или фолд и т. д.
+    bet=0##
+    roundBet=0##
     wallet=20##кошелек
-    id
+    id ##номер игрока за столом
 
 class table:
     com=[]
@@ -38,7 +38,19 @@ def main():
 ##        allcards=gg
         for i in range(NPlaer):##тут
             if Pls[i].wallet==0:
-                return
+                sum=0
+                for y in range(NPlaer):##тут
+                    sum+=Pls[y].wallet
+                if sum==60:
+                    for y in range(NPlaer):##тут
+                        Pls[y].wallet=20
+                else :
+                    print("!!!check bank!!!")
+                    return 0
+            if Pls[i].wallet<0:
+                print("!!!zero down wallet!!!")
+                return 0
+##                return
         allcards=gener.gg(NPlaer)
         print(allcards[:5])
 
